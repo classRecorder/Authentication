@@ -32,6 +32,7 @@ class Classes(models.Model):
 class Student_Classes(models.Model):
     class_id = models.ForeignKey(Classes , on_delete = models.DO_NOTHING)
     student_id = models.ForeignKey(Students , on_delete = models.DO_NOTHING)
+    accessibility = models.BooleanField(default=False) # if set to true student is an admin
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -43,12 +44,13 @@ class Student_Classes(models.Model):
 class Sessions(models.Model):
     session_id = models.IntegerField(primary_key=True)
     class_id = models.ForeignKey(Classes , on_delete = models.DO_NOTHING)
-    note = models.FileField()
-    voice = models.FileField()
-    homework = models.FileField()
+    note = models.FileField(default = 0)
+    voice = models.FileField(default = 0)
+    homework = models.FileField(default = 0)
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=['session_id', 'class_id'], name='Sessions_primary_key'
             )
         ]
+
