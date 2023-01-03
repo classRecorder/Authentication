@@ -2,25 +2,25 @@ from django.db import models
 
 class Students(models.Model):
     student_id = models.IntegerField(primary_key=True)
-    username = models.CharField(max_length=100, default='0000000', editable=True)
-    first_name = models.CharField(max_length=100, default='0000000', editable=True)
-    last_name = models.CharField(max_length=100, default='0000000', editable=True)
-    email = models.EmailField(max_length = 254, default='0000000', editable=True)
+    username = models.CharField(max_length=100, default='Enter Username', editable=True)
+    first_name = models.CharField(max_length=100, default='Enter First Name', editable=True)
+    last_name = models.CharField(max_length=100, default='Enter Last Name', editable=True)
+    email = models.EmailField(max_length = 254, default='Enter Email', editable=True)
 
 
 class Teachers(models.Model):
     teacher_id = models.IntegerField(primary_key=True)
-    username = models.CharField(max_length=100, default='0000000', editable=True)
-    first_name = models.CharField(max_length=100, default='0000000', editable=True)
-    last_name = models.CharField(max_length=100, default='0000000', editable=True)
-    email = models.EmailField(max_length = 254, default='0000000', editable=True)
+    username = models.CharField(max_length=100, default='Enter Username', editable=True)
+    first_name = models.CharField(max_length=100, default='Enter First Name', editable=True)
+    last_name = models.CharField(max_length=100, default='Enter Last Name', editable=True)
+    email = models.EmailField(max_length = 254, default='Enter Email', editable=True)
     
 
 
 class Classes(models.Model):
     class_id = models.IntegerField(primary_key=True)
     teacher_id = models.ForeignKey(Teachers , on_delete = models.DO_NOTHING)
-    name = models.CharField(max_length=200, default='0000000', editable=True)
+    name = models.CharField(max_length=200, default='Class Name', editable=True)
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -43,6 +43,9 @@ class Student_Classes(models.Model):
 class Sessions(models.Model):
     session_id = models.IntegerField(primary_key=True)
     class_id = models.ForeignKey(Classes , on_delete = models.DO_NOTHING)
+    note = models.FileField()
+    voice = models.FileField()
+    homework = models.FileField()
     class Meta:
         constraints = [
             models.UniqueConstraint(

@@ -51,11 +51,23 @@ class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
-        serializer = AuthTokenSerializer(data=request.data)
+        data = request.data
+        username = data['username']
+        role = "student" #set role to student and check if user is teacher
+        print(username)
+        serializer = AuthTokenSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        # Search and find out user's Role and return it
+        for e in Teachers.objects.all():
+            if (e.username == username):
+                role = "teacher"
+        return Response({
+            "role": role,
+            "info": super(LoginAPI, self).post(request, format=None)
+        }) 
+        
 
 
 # Cahnge Password API
